@@ -6,9 +6,11 @@ class ResultsScreen extends StatelessWidget {
   const ResultsScreen({
     super.key,
     required this.chosenAnswers,
+    required this.onRestart,
   });
 
   final List<String> chosenAnswers;
+  final void Function() onRestart;
 
   List<Map<String, Object>> getSummaryData() {
     final List<Map<String, Object>> summary = [];
@@ -28,7 +30,7 @@ class ResultsScreen extends StatelessWidget {
   }
 
   @override
-  Widget build(context) {
+  Widget build(BuildContext context) {
     final summaryData = getSummaryData();
     final numTotalQuestions = questions.length;
     final numCorrectQuestions = summaryData.where((data) {
@@ -45,12 +47,18 @@ class ResultsScreen extends StatelessWidget {
             Text(
               'You answered $numCorrectQuestions out of '
               '$numTotalQuestions questions correctly',
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             const SizedBox(height: 30),
             QuestionsSummary(summaryData: summaryData),
             const SizedBox(height: 30),
             TextButton(
-              onPressed: () {},
+              onPressed: onRestart,
               child: const Text('Restart Quiz'),
             ),
           ],
